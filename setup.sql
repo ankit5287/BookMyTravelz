@@ -1,0 +1,21 @@
+CREATE DATABASE IF NOT EXISTS book_db;
+USE book_db;
+
+CREATE TABLE IF NOT EXISTS book_form (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    guests INT NOT NULL,
+    arrivals DATE NOT NULL,
+    leaving DATE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS register_form (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
+);

@@ -1,0 +1,145 @@
+/*--- Start Scripting ---*/
+let menu = document.querySelector('#menu-btn');
+let navbar = document.querySelector('.header .navbar');
+
+menu.onclick = () => {
+    menu.classList.toggle('fa-times');
+    navbar.classList.toggle('active');
+};
+
+window.onscroll = () => {
+    menu.classList.remove('fa-times');
+    navbar.classList.remove('active');
+};
+
+
+
+var swiper = new Swiper(".reviews-slider", {
+    loop: true,
+    spaceBetween: 50,
+    grabCursor: true,
+    breakpoints: {
+        640: {
+            slidesPerView: 1,
+        },
+        768: {
+            slidesPerView: 2,
+        },
+        1024: {
+            slidesPerView: 3,
+        },
+    },
+});
+
+
+let loadMoreBtn = document.querySelector('.packages .load-more .btn');
+let currentItem = 3;
+
+if (loadMoreBtn) {
+    loadMoreBtn.onclick = () => {
+        let boxs = [...document.querySelectorAll('.packages .box-container .box')];
+        for (var i = currentItem; i < currentItem + 3; i++) {
+            boxs[i].style.display = 'flex';
+        }
+        currentItem += 3;
+        if (currentItem >= boxs.length) {
+            loadMoreBtn.style.display = 'none';
+        }
+    };
+}
+let readMoreBtns = document.querySelectorAll('.packages .box .content .read-more, .home-packages .box .content .read-more');
+
+readMoreBtns.forEach(btn => {
+    btn.onclick = (e) => {
+        e.preventDefault();
+        let box = btn.closest('.box');
+        let title = box.querySelector('h3').innerText;
+        let content = box.querySelector('.more-details').innerHTML;
+        let imgSrc = box.querySelector('.image img').src;
+
+        let modal = document.getElementById('package-modal');
+        let modalTitle = document.getElementById('modal-title');
+        let modalBody = document.getElementById('modal-body');
+        let modalImg = document.getElementById('modal-img');
+
+        if (modal && modalTitle && modalBody && modalImg) {
+            modalTitle.innerText = title;
+            modalBody.innerHTML = content;
+            modalImg.src = imgSrc;
+            modalImg.style.display = 'block';
+            modal.style.display = 'flex';
+        }
+    }
+});
+
+let closeModal = document.getElementById('close-modal');
+let modal = document.getElementById('package-modal');
+if (closeModal && modal) {
+    closeModal.onclick = () => {
+        modal.style.display = 'none';
+    }
+    window.onclick = (event) => {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+}
+
+let readMoreAboutBtn = document.querySelector('.about .content .read-more-about');
+if (readMoreAboutBtn) {
+    readMoreAboutBtn.onclick = () => {
+        let moreAboutDetails = document.querySelector('.about .content .more-about-details');
+
+        if (moreAboutDetails.style.display === 'none') {
+            moreAboutDetails.style.display = 'block';
+            readMoreAboutBtn.innerText = 'Show Less';
+        } else {
+            moreAboutDetails.style.display = 'none';
+            readMoreAboutBtn.innerText = 'Learn More';
+        }
+    }
+}
+
+/*--- Footer Extra Links Modal Logic ---*/
+const footerContent = {
+    'questions': {
+        title: 'Ask Questions',
+        body: '<p>If you have any questions regarding our packages, booking process, or services, please feel free to reach out to our support team. <br><br> Email: support@travel.com <br> Phone: +123-456-7890</p>'
+    },
+    'about': {
+        title: 'About Us',
+        body: '<p>We are a premier travel agency dedicated to providing specific and unforgettable travel experiences. With over 10 years of experience, we have served thousands of happy travelers.</p>'
+    },
+    'privacy': {
+        title: 'Privacy Policy',
+        body: '<p>Your privacy is important to us. We collect only necessary information to process your bookings and improve your experience. We do not share your data with third parties without consent.</p>'
+    },
+    'terms': {
+        title: 'Terms of Use',
+        body: '<p>By using our website, you agree to our terms and conditions. All bookings are subject to availability and confirmation. Cancellation policies apply as per the package details.</p>'
+    }
+};
+
+let footerLinks = document.querySelectorAll('.footer .box a[data-key]');
+
+footerLinks.forEach(link => {
+    link.onclick = (e) => {
+        e.preventDefault();
+        let key = link.getAttribute('data-key');
+        let content = footerContent[key];
+
+        if (content) {
+            let modal = document.getElementById('package-modal');
+            let modalTitle = document.getElementById('modal-title');
+            let modalBody = document.getElementById('modal-body');
+            let modalImg = document.getElementById('modal-img');
+
+            if (modal && modalTitle && modalBody && modalImg) {
+                modalTitle.innerText = content.title;
+                modalBody.innerHTML = content.body;
+                modalImg.style.display = 'none'; // Hide image for text-only modals
+                modal.style.display = 'flex';
+            }
+        }
+    }
+});

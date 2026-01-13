@@ -987,17 +987,22 @@ html.stop-scrolling {
 .package-modal .modal-content {
     max-height: 85vh;
     overflow-y: auto;
+    overflow-x: hidden;
+    /* Prevent horizontal scrollbar */
     padding: 3rem;
     max-width: 80rem;
     width: 90%;
     margin: 2rem auto;
-    background: #E0DBDA;
+    background: rgba(224, 219, 218, 0.9);
+    /* #E0DBDA with 90% opacity */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 1rem;
     position: relative;
     display: block;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
     color: #333;
-    border: 2px solid #000;
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .package-modal .close-btn {
@@ -1010,7 +1015,7 @@ html.stop-scrolling {
 
 .package-modal h3#modal-title {
     color: #333;
-    border-bottom: 2px solid #000;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 
@@ -1033,7 +1038,7 @@ html.stop-scrolling {
     color: var(--main-color);
     margin-top: 2rem;
     margin-bottom: 1rem;
-    border-bottom: 2px solid #000;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     padding-bottom: 0.5rem;
     text-transform: uppercase;
 }
@@ -1041,7 +1046,7 @@ html.stop-scrolling {
 .package-modal .btn {
     background: var(--main-color);
     color: var(--white);
-    border: 2px solid #000;
+    border: none;
 }
 
 .package-modal .btn:hover {

@@ -12,6 +12,11 @@ window.onscroll = () => {
     navbar.classList.remove('active');
 };
 
+// Add fade-in class to sections and content for animation
+document.querySelectorAll('section, .box, .content, .heading').forEach(el => {
+    el.classList.add('fade-in');
+});
+
 /* Scroll Animation (Intersection Observer) */
 const faders = document.querySelectorAll('.fade-in');
 const appearOptions = {
@@ -32,11 +37,6 @@ const appearOnScroll = new IntersectionObserver(function (entries, appearOnScrol
 
 faders.forEach(fader => {
     appearOnScroll.observe(fader);
-});
-
-// Add fade-in class to sections and content for animation
-document.querySelectorAll('section, .box, .content, .heading').forEach(el => {
-    el.classList.add('fade-in');
 });
 
 

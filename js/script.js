@@ -44,10 +44,7 @@ faders.forEach(fader => {
 
 var swiper = new Swiper(".home-slider", {
     loop: true,
-    navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-    },
+
 });
 
 var swiper = new Swiper(".reviews-slider", {
@@ -74,10 +71,10 @@ let currentItem = 3;
 if (loadMoreBtn) {
     loadMoreBtn.onclick = () => {
         let boxs = [...document.querySelectorAll('.packages .box-container .box')];
-        for (var i = currentItem; i < currentItem + 3; i++) {
+        for (var i = currentItem; i < boxs.length; i++) {
             boxs[i].style.display = 'flex';
         }
-        currentItem += 3;
+        currentItem = boxs.length;
         if (currentItem >= boxs.length) {
             loadMoreBtn.style.display = 'none';
         }
@@ -157,7 +154,7 @@ if (readMoreAboutBtn) {
 const footerContent = {
     'questions': {
         title: 'Ask Questions',
-        body: '<p>If you have any questions regarding our packages, booking process, or services, please feel free to reach out to our support team. <br><br> Email: support@travel.com <br> Phone: +123-456-7890</p>'
+        body: '<p>If you have any questions regarding our packages, booking process, or services, please feel free to reach out to our support team. <br><br> Email: formicro32@gmail.com <br> Phone: +91 7801974180</p>'
     },
     'about': {
         title: 'About Us',

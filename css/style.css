@@ -974,7 +974,6 @@ section {
 body.stop-scrolling,
 html.stop-scrolling {
     overflow: hidden !important;
-    height: 100% !important;
 }
 
 /*--- Improved Package Modal Styles (Light Mode) ---*/

@@ -230,45 +230,46 @@ section {
 /*--- Start Home Section ---*/
 .home {
     padding: 0;
-}
-
-.home .slide {
-    background-repeat: no-repeat;
-    padding: 2rem;
+    margin: 0;
+    background: url(../images/hero-black.png) no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: 80vh;
+    /* Increased height for better initial view */
     display: flex;
     align-items: center;
     justify-content: center;
-    background-size: cover !important;
-    background-position: center !important;
-    min-height: 60rem;
+    position: relative;
 }
 
-.home .slide .content {
-    width: 85rem;
+.home .content {
+    max-width: 85rem;
+    /* Changed to max-width for responsiveness */
+    width: 90%;
+    /* Occupy 90% on smaller screens */
     text-align: center;
-    display: inline-block;
 }
 
-.home .slide .content span {
-    color: var(--light-white);
-    font-size: 2.2rem;
+.home .content span {
+    font-size: 3.5rem;
+    color: var(--white);
     display: block;
-    padding-bottom: 1rem;
-    animation: fadeIn .2s linear backwards .2s;
+    animation: fadeIn 2s linear backwards 0.2s;
 }
 
-.home .slide .content h3 {
-    font-size: 6vw;
-    color: var(--black);
+.home .content h3 {
+    font-size: 6rem;
+    /* Slightly adjusted base size */
+    color: var(--white);
     text-transform: uppercase;
-    line-height: 1;
     text-shadow: var(--text-shadow);
+    line-height: 1.2;
     padding: 1rem 0;
-    animation: fadeIn .2s linear backwards .4s;
+    animation: fadeIn 2s linear backwards 0.4s;
 }
 
-.home .slide .content .btn {
-    animation: fadeIn .2s linear backwards .6s;
+.home .content .btn {
+    animation: fadeIn 2s linear backwards 0.6s;
 }
 
 .home .swiper-button-next,
@@ -398,8 +399,14 @@ section {
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: .3s linear;
-    display: flex;
+    display: none;
     flex-direction: column;
+}
+
+.home-packages .box-container .box:nth-child(1),
+.home-packages .box-container .box:nth-child(2),
+.home-packages .box-container .box:nth-child(3) {
+    display: flex;
 }
 
 .home-packages .box-container .box:hover,
@@ -984,12 +991,13 @@ html.stop-scrolling {
     max-width: 80rem;
     width: 90%;
     margin: 2rem auto;
-    background: #fff;
+    background: #E0DBDA;
     border-radius: 1rem;
     position: relative;
     display: block;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
     color: #333;
+    border: 2px solid #000;
 }
 
 .package-modal .close-btn {
@@ -1002,7 +1010,7 @@ html.stop-scrolling {
 
 .package-modal h3#modal-title {
     color: #333;
-    border-bottom: 2px solid var(--main-color);
+    border-bottom: 2px solid #000;
 }
 
 
@@ -1025,9 +1033,20 @@ html.stop-scrolling {
     color: var(--main-color);
     margin-top: 2rem;
     margin-bottom: 1rem;
-    border-bottom: 1px solid #eee;
+    border-bottom: 2px solid #000;
     padding-bottom: 0.5rem;
     text-transform: uppercase;
+}
+
+.package-modal .btn {
+    background: var(--main-color);
+    color: var(--white);
+    border: 2px solid #000;
+}
+
+.package-modal .btn:hover {
+    background: #000;
+    color: var(--white);
 }
 
 .package-modal #modal-body p {

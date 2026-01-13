@@ -12,6 +12,31 @@ window.onscroll = () => {
     navbar.classList.remove('active');
 };
 
+
+// Anime.js Scroll Animation for Boxes
+if (typeof anime !== 'undefined') {
+    let observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                anime({
+                    targets: entry.target,
+                    translateY: [100, 0], // Slide up from 100px down
+                    opacity: [0, 1],
+                    duration: 950,
+                    easing: 'cubicBezier(0.1, 0.7, 0.5, 1)',
+                    delay: anime.stagger(200) // Stagger effect for multiple boxes
+                });
+                observer.unobserve(entry.target); // Animate only once
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.box').forEach(box => {
+        box.style.opacity = '0'; // Initial state hidden
+        observer.observe(box);
+    });
+}
+
 // Add fade-in class to sections and content for animation
 document.querySelectorAll('section, .box, .content, .heading').forEach(el => {
     el.classList.add('fade-in');
@@ -42,10 +67,7 @@ faders.forEach(fader => {
 
 
 
-var swiper = new Swiper(".home-slider", {
-    loop: true,
-
-});
+// Home Slider Swiper Removed (Static Hero)
 
 var swiper = new Swiper(".reviews-slider", {
     loop: true,
@@ -68,16 +90,29 @@ var swiper = new Swiper(".reviews-slider", {
 let loadMoreBtn = document.querySelector('.packages .load-more .btn');
 let currentItem = 3;
 
-if (loadMoreBtn) {
+// Check for "show=all" query parameter
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('show') === 'all') {
+    // If "show=all" is present, show ALL packages immediately
+    // Use a timeout or ensure DOM is ready? Script is usually at bottom so it's fine.
+    // However, we need to override the initial state.
+    // We'll set currentItem to a large number or just loop all.
+    let boxes = [...document.querySelectorAll('.packages .box-container .box')];
+    for (var i = 0; i < boxes.length; i++) {
+        boxes[i].style.display = 'flex';
+    }
+    // Hide the button since everything is shown
+    if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+}
+
+if (loadMoreBtn && urlParams.get('show') !== 'all') {
     loadMoreBtn.onclick = () => {
         let boxs = [...document.querySelectorAll('.packages .box-container .box')];
-        for (var i = currentItem; i < boxs.length; i++) {
+        // Show all remaining packages on click
+        for (var i = 0; i < boxs.length; i++) {
             boxs[i].style.display = 'flex';
         }
-        currentItem = boxs.length;
-        if (currentItem >= boxs.length) {
-            loadMoreBtn.style.display = 'none';
-        }
+        loadMoreBtn.style.display = 'none';
     };
 }
 let readMoreBtns = document.querySelectorAll('.packages .box .content .read-more, .home-packages .box .content .read-more');

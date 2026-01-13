@@ -12,7 +12,43 @@ window.onscroll = () => {
     navbar.classList.remove('active');
 };
 
+/* Scroll Animation (Intersection Observer) */
+const faders = document.querySelectorAll('.fade-in');
+const appearOptions = {
+    threshold: 0.2,
+    rootMargin: "0px 0px -50px 0px"
+};
 
+const appearOnScroll = new IntersectionObserver(function (entries, appearOnScroll) {
+    entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+            return;
+        } else {
+            entry.target.classList.add('appear');
+            appearOnScroll.unobserve(entry.target);
+        }
+    });
+}, appearOptions);
+
+faders.forEach(fader => {
+    appearOnScroll.observe(fader);
+});
+
+// Add fade-in class to sections and content for animation
+document.querySelectorAll('section, .box, .content, .heading').forEach(el => {
+    el.classList.add('fade-in');
+});
+
+
+
+
+var swiper = new Swiper(".home-slider", {
+    loop: true,
+    navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+    },
+});
 
 var swiper = new Swiper(".reviews-slider", {
     loop: true,

@@ -38,6 +38,7 @@ body {
 html {
     font-size: 61.5%;
     overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
 html::-webkit-scrollbar {
@@ -91,11 +92,25 @@ section {
     padding: 1rem 3rem;
     cursor: pointer;
     border-radius: 5rem;
+    transition: .3s;
 }
 
 .btn:hover {
     background-color: var(--main-color);
     color: var(--white);
+    transform: scale(1.1);
+}
+
+/* Scroll Animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1s ease-out;
+}
+
+.fade-in.appear {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* --- Start Register Form --- */

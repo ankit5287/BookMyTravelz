@@ -93,33 +93,50 @@ readMoreBtns.forEach(btn => {
         let content = box.querySelector('.more-details').innerHTML;
         let imgSrc = box.querySelector('.image img').src;
 
-        let modal = document.getElementById('package-modal');
         let modalTitle = document.getElementById('modal-title');
         let modalBody = document.getElementById('modal-body');
         let modalImg = document.getElementById('modal-img');
+        let modalBookBtn = document.getElementById('modal-book-btn');
 
         if (modal && modalTitle && modalBody && modalImg) {
             modalTitle.innerText = title;
             modalBody.innerHTML = content;
             modalImg.src = imgSrc;
             modalImg.style.display = 'block';
+            if (modalBookBtn) modalBookBtn.style.display = 'block'; // Show book button
             modal.style.display = 'flex';
+            toggleScrollLock(true);
         }
     }
 });
 
+
 let closeModal = document.getElementById('close-modal');
 let modal = document.getElementById('package-modal');
+
+function toggleScrollLock(active) {
+    if (active) {
+        document.body.classList.add('stop-scrolling');
+        document.documentElement.classList.add('stop-scrolling');
+    } else {
+        document.body.classList.remove('stop-scrolling');
+        document.documentElement.classList.remove('stop-scrolling');
+    }
+}
+
 if (closeModal && modal) {
     closeModal.onclick = () => {
         modal.style.display = 'none';
+        toggleScrollLock(false);
     }
     window.onclick = (event) => {
         if (event.target == modal) {
             modal.style.display = 'none';
+            toggleScrollLock(false);
         }
     }
 }
+
 
 let readMoreAboutBtn = document.querySelector('.about .content .read-more-about');
 if (readMoreAboutBtn) {
@@ -165,16 +182,18 @@ footerLinks.forEach(link => {
         let content = footerContent[key];
 
         if (content) {
-            let modal = document.getElementById('package-modal');
             let modalTitle = document.getElementById('modal-title');
             let modalBody = document.getElementById('modal-body');
             let modalImg = document.getElementById('modal-img');
+            let modalBookBtn = document.getElementById('modal-book-btn');
 
             if (modal && modalTitle && modalBody && modalImg) {
                 modalTitle.innerText = content.title;
                 modalBody.innerHTML = content.body;
                 modalImg.style.display = 'none'; // Hide image for text-only modals
+                if (modalBookBtn) modalBookBtn.style.display = 'none'; // Hide book button
                 modal.style.display = 'flex';
+                toggleScrollLock(true);
             }
         }
     }

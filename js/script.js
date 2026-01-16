@@ -37,8 +37,8 @@ if (typeof anime !== 'undefined') {
     });
 }
 
-// Add fade-in class to sections and content for animation
-document.querySelectorAll('section, .box, .content, .heading').forEach(el => {
+// Add fade-in class to sections and content for animation (exclude header to keep it static)
+document.querySelectorAll('section:not(.header), .box, .content, .heading').forEach(el => {
     el.classList.add('fade-in');
 });
 

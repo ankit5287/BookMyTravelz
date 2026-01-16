@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Status</title>
+
+    <!-- swiper css link  -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="css/style.css?v=" type="text/css">
+</head>
+
+<body>
+    <!-- Header Section Start -->
+    <section class="header">
+        <a href="index.html" class="logo">PlanMyTrip</a>
+
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="package.html">Package</a>
+            <a href="book.html">Book</a>
+            <a href="status.html">Booking Status</a>
+        </nav>
+
+        <div id="menu-btn" class="fas fa-bars"></div>
+    </section>
+    <!-- Header Section End -->
+
+    <div class="heading" style="background: url(images/header-bg-1.png) no-repeat">
+        <h1>Check Status</h1>
+    </div>
+
+    <!-- Booking Status Section Start -->
+    <section class="booking">
+        <h1 class="heading-title">Check Your Booking</h1>
+
+        <form id="statusForm" class="book-form">
+            <div class="flex">
+                <div class="inputBox" style="width: 100%;">
+                    <span>Customer ID :</span>
+                    <input type="text" placeholder="Enter your Customer ID (e.g., CUST-XXXXXXXX)" name="customerId"
+                        required>
+                </div>
+            </div>
+            <input type="submit" value="Check Status" class="btn" name="send">
+        </form>
+
+        <div id="statusResult"
+            style="display: none; margin-top: 3rem; background: #eee; padding: 2rem; border-radius: 1rem;">
+            <h2 style="font-size: 2.5rem; color: var(--main-color); margin-bottom: 1.5rem;">Booking Details</h2>
+            <div class="details-content" style="font-size: 1.6rem; color: #333; line-height: 2;">
+                <!-- Details will be injected here -->
+            </div>
+        </div>
+    </section>
+    <!-- Booking Status Section End -->
+
+    <!-- Footer Section Start -->
+    <section class="footer">
+        <div class="box-container">
+            <div class="box">
+                <h3>quick links</h3>
+                <a href="index.html"><i class="fas fa-angle-right"></i> Home</a>
+                <a href="about.html"><i class="fas fa-angle-right"></i>About</a>
+                <a href="package.html"><i class="fas fa-angle-right"></i>Package</a>
+                <a href="book.html"><i class="fas fa-angle-right"></i>Book</a>
+            </div>
+
+            <div class="box">
+                <h3>extra links</h3>
+                <a href="#" data-key="questions"><i class="fas fa-angle-right"></i>ask questions</a>
+                <a href="#" data-key="about"><i class="fas fa-angle-right"></i>about us</a>
+                <a href="#" data-key="privacy"><i class="fas fa-angle-right"></i>privacy policy</a>
+                <a href="#" data-key="terms"><i class="fas fa-angle-right"></i>terms of use</a>
+            </div>
+
+            <div class="box">
+                <h3>contact info</h3>
+                <a href="#"><i class="fas fa-phone"></i>+91 7801974180</a>
+                <a href="#"><i class="fas fa-envelope"></i>formicro32@gmail.com</a>
+                <a href="#"><i class="fas fa-map"></i>Ahmedabad, India</a>
+            </div>
+
+            <div class="box">
+                <h3>follow us</h3>
+                <a href="#"><i class="fab fa-facebook-f"></i>facebook</a>
+                <a href="#"><i class="fab fa-twitter"></i>twitter</a>
+                <a href="#"><i class="fab fa-instagram"></i>instagram</a>
+                <a href="#"><i class="fab fa-linkedin"></i>linkedin</a>
+            </div>
+        </div>
+    </section>
+    <!-- Footer Section End -->
+
+    <!-- swiper js link  -->
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+    <!-- custom js file link  -->
+    <script type="text/javascript" src="js/script.js?v="></script>
+
+    <script>
+        document.getElementById('statusForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const customerId = this.customerId.value.trim();
+            const resultDiv = document.getElementById('statusResult');
+            const contentDiv = resultDiv.querySelector('.details-content');
+
+            try {
+                const response = await fetch(`/api/book/${customerId}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    const booking = data.booking;
+                    contentDiv.innerHTML = `
+                        <p><strong>Name:</strong> ${booking.name}</p>
+                        <p><strong>Location:</strong> ${booking.location}</p>
+                        <p><strong>Guests:</strong> ${booking.guests}</p>
+                        <p><strong>Arrival:</strong> ${new Date(booking.arrivals).toDateString()}</p>
+                        <p><strong>Departure:</strong> ${new Date(booking.leaving).toDateString()}</p>
+                        <p><strong>Status:</strong> <span style="color: green;">Confirmed</span></p>
+                    `;
+                    resultDiv.style.display = 'block';
+                } else {
+                    alert('Error: ' + data.message);
+                    resultDiv.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Something went wrong. Please try again.');
+            }
+        });
+    </script>
+</body>
+
+</html>

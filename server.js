@@ -45,33 +45,48 @@ function generateCustomerId() {
 }
 
 // Routes
+// API Endpoint to Save Booking Data
 app.post('/api/book', async (req, res) => {
     try {
-        const { name, email, phone, address, location, guests, minPrice, maxPrice, arrivals, leaving } = req.body;
+        const { name, email, phone, address, location, guests, arrivals, leaving } = req.body;
+
+        // Generate a random Customer ID (e.g., CUST-X7Z9A2B3)
+        const customerId = 'CUST-' + Math.random().toString(36).substr(2, 9).toUpperCase();
 
         const newBooking = new Booking({
-            customerId: generateCustomerId(),
+            customerId,
             name,
             email,
             phone,
             address,
             location,
             guests,
-            minPrice,
-            maxPrice,
             arrivals,
             leaving
         });
 
         await newBooking.save();
 
-        res.status(201).json({
-            success: true,
-            message: 'Booking Confirmed!',
-            customerId: newBooking.customerId
-        });
+        res.status(201).json({ success: true, message: 'Booking saved successfully!', customerId: customerId });
     } catch (error) {
-        console.error('Error saving booking:', error);
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+});
+
+// API Endpoint to Get Booking Status
+app.get('/api/book/:customerId', async (req, res) => {
+    try {
+        const customerId = req.params.customerId;
+        const booking = await Booking.findOne({ customerId: customerId });
+
+        if (booking) {
+            res.json({ success: true, booking: booking });
+        } else {
+            res.status(404).json({ success: false, message: 'Booking not found' });
+        }
+    } catch (error) {
+        console.error(error);
         res.status(500).json({ success: false, message: 'Server Error' });
     }
 });

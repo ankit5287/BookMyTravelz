@@ -1,6 +1,6 @@
 <?php
     //connection
-    $connection = mysqli_connect('localhost' , 'root' , '' , 'book_db');
+    include 'db_config.php';
 
     if(isset($_POST['submit']))
     {

@@ -40,51 +40,126 @@
     <section class="booking">
         <h1 class="heading-title">book your trip!</h1>
 
-        <form action="book_form.html" method="post" class="book-form">
+        <form id="bookingForm" class="book-form">
             <div class="flex">
                 <div class="inputBox">
                     <span>name :</span>
-                    <input type="text" placeholder="enter your name" name="name">
+                    <input type="text" placeholder="enter your name" name="name" required>
                 </div>
 
                 <div class="inputBox">
                     <span>Email:</span>
-                    <input type="email" placeholder="Enter your email" name="email">
+                    <input type="email" placeholder="Enter your email" name="email" required>
                 </div>
 
                 <div class="inputBox">
                     <span>Phone:</span>
-                    <input type="number" placeholder="Enter your number" name="phone">
+                    <input type="number" placeholder="Enter your number" name="phone" required>
                 </div>
 
                 <div class="inputBox">
                     <span>Address:</span>
-                    <input type="text" placeholder="Enter your address" name="address">
+                    <input type="text" placeholder="Enter your address" name="address" required>
                 </div>
 
                 <div class="inputBox">
                     <span>Destination:</span>
-                    <input type="text" placeholder="Place you want to visit" name="location">
+                    <input type="text" placeholder="Place you want to visit" name="location" required>
                 </div>
 
                 <div class="inputBox">
                     <span>Number of Guests:</span>
-                    <input type="number" placeholder="Number of guests" name="guests">
+                    <input type="number" placeholder="Number of guests" name="guests" required>
                 </div>
 
                 <div class="inputBox">
                     <span>Arrival Date:</span>
-                    <input type="date" name="arrivals">
+                    <input type="date" name="arrivals" required>
                 </div>
 
                 <div class="inputBox">
                     <span>Departure Date:</span>
-                    <input type="date" name="leaving">
+                    <input type="date" name="leaving" required>
                 </div>
             </div>
 
             <input type="submit" value="Submit Request" class="btn" name="send">
         </form>
+
+        <script>
+            document.getElementById('bookingForm').addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData.entries());
+
+                try {
+                    const response = await fetch('/api/book', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        // Success modal logic
+                        const modal = document.getElementById('success-modal');
+                        const customerIdSpan = document.getElementById('new-customer-id');
+                        customerIdSpan.innerText = result.customerId;
+                        modal.style.display = 'flex';
+
+                        this.reset();
+                    } else {
+                        alert('Error: ' + result.message);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Something went wrong. Please try again.');
+                }
+            });
+
+            function copyToClipboard() {
+                const idText = document.getElementById('new-customer-id').innerText;
+                navigator.clipboard.writeText(idText).then(() => {
+                    const icon = document.getElementById('copy-icon');
+                    // distinct visual feedback
+                    icon.classList.remove('fa-copy');
+                    icon.classList.add('fa-check');
+                    icon.style.color = 'green';
+
+                    setTimeout(() => {
+                        icon.classList.remove('fa-check');
+                        icon.classList.add('fa-copy');
+                        icon.style.color = 'var(--main-color)';
+                    }, 2000);
+                });
+            }
+
+            function closeSuccessModal() {
+                document.getElementById('success-modal').style.display = 'none';
+            }
+        </script>
+
+        <!-- Success Modal -->
+        <div id="success-modal" class="package-modal" style="display: none;">
+            <div class="modal-content" style="text-align: center;">
+                <span class="close-btn" onclick="closeSuccessModal()">&times;</span>
+                <h3 style="color: var(--main-color); margin-bottom: 1rem;">Booking Confirmed!</h3>
+                <p style="color: #333; font-size: 1.6rem; margin-bottom: 2rem;">Thank you for booking with us. Your
+                    unique Customer ID is:</p>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin: 1.5rem 0;">
+                    <h2 id="new-customer-id"
+                        style="color: #333; border: 2px dashed var(--main-color); padding: 0.5rem 1rem; margin: 0;">
+                    </h2>
+                    <i id="copy-icon" class="fas fa-copy" onclick="copyToClipboard()"
+                        style="font-size: 2rem; color: var(--main-color); cursor: pointer;"
+                        title="Copy to clipboard"></i>
+                </div>
+            </div>
+        </div>
     </section>
     <!-- Book Section End-->
 
